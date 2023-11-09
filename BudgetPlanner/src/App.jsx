@@ -5,11 +5,18 @@ export default function App() {
   const [cost, setCost] = useState();
   const [expenses, setExpenses] = useState([]);
 
+  // Handle Save
   const handleSave = (e) => {
     e.preventDefault();
     setExpenses([...expenses, { name, cost }]);
   };
-  console.log(expenses);
+  // Handle Delete
+  const handleDelete = (targetKey) => {
+    const newExpenses = expenses.filter(
+      (expense, keyExpense) => keyExpense !== targetKey
+    );
+    setExpenses(newExpenses);
+  };
 
   return (
     <>
@@ -41,7 +48,7 @@ export default function App() {
         <div key={keyExpense} className="container">
           <p>{expense.name}</p>
           <p>{expense.cost}</p>
-          <button>x</button>
+          <button onClick={() => handleDelete(keyExpense)}>x</button>
         </div>
       ))}
     </>
