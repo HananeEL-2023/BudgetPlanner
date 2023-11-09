@@ -4,12 +4,15 @@ export default function App() {
   const [name, setName] = useState("");
   const [cost, setCost] = useState();
   const [expenses, setExpenses] = useState([]);
+  const [budget, setBudget] = useState();
+  const [search, setSearch] = useState([]);
 
   // Handle Save
   const handleSave = (e) => {
     e.preventDefault();
     setExpenses([...expenses, { name, cost }]);
   };
+
   // Handle Delete
   const handleDelete = (targetKey) => {
     const newExpenses = expenses.filter(
@@ -18,8 +21,23 @@ export default function App() {
     setExpenses(newExpenses);
   };
 
+  const handleAddBudget = (e) => {
+    if (e.key === "Enter") {
+      setBudget(e.target.value);
+      console.log(budget);
+    }
+  };
+  console.log(search);
   return (
     <>
+      <input
+        type="number"
+        placeholder="Budget:2000 MAD"
+        value={budget}
+        onChange={(e) => setBudget(e.target.value)}
+        onKeyDown={handleAddBudget}
+      />
+      <button>Edit</button>
       <form action="">
         <h1>Add Expense</h1>
         <label htmlFor="name">Name</label>
@@ -44,6 +62,14 @@ export default function App() {
           Save
         </button>
       </form>
+      <h2>Expenses</h2>
+      <input
+        type="text"
+        placeholder="Type to search"
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
+      />
+
       {expenses.map((expense, keyExpense) => (
         <div key={keyExpense} className="container">
           <p>{expense.name}</p>
