@@ -24,10 +24,13 @@ export default function App() {
   const handleAddBudget = (e) => {
     if (e.key === "Enter") {
       setBudget(e.target.value);
-      console.log(budget);
     }
   };
-  console.log(search);
+  //Calculate total expenses & Remaining
+  let totalExpenses = expenses.reduce((accumulator, expense) => {
+    return accumulator + parseFloat(expense.cost);
+  }, 0);
+
   return (
     <>
       <input
@@ -38,6 +41,8 @@ export default function App() {
         onKeyDown={handleAddBudget}
       />
       <button>Edit</button>
+      <p>Remaining : ${parseFloat(budget) - totalExpenses}</p>
+      <p>Spend so far : ${totalExpenses}</p>
       <form action="">
         <h1>Add Expense</h1>
         <label htmlFor="name">Name</label>
