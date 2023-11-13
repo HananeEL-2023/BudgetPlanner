@@ -5,7 +5,7 @@ export default function App() {
   const [cost, setCost] = useState();
   const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState();
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   // Handle Save
   const handleSave = (e) => {
@@ -30,6 +30,17 @@ export default function App() {
   let totalExpenses = expenses.reduce((accumulator, expense) => {
     return accumulator + parseFloat(expense.cost);
   }, 0);
+
+  //Search
+
+  const SearchExpenses = (search) => {
+    search = search.toLowerCase();
+    return expenses.filter((expense) =>
+      expense.name.toLowerCase().includes(search)
+    );
+  };
+
+  let searchResults = SearchExpenses(search);
 
   return (
     <>
@@ -74,8 +85,7 @@ export default function App() {
         onChange={(e) => setSearch(e.target.value)}
         value={search}
       />
-
-      {expenses.map((expense, keyExpense) => (
+      {searchResults.map((expense, keyExpense) => (
         <div key={keyExpense} className="container">
           <p>{expense.name}</p>
           <p>{expense.cost}</p>
