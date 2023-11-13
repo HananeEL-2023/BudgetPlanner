@@ -4,8 +4,9 @@ export default function App() {
   const [name, setName] = useState("");
   const [cost, setCost] = useState();
   const [expenses, setExpenses] = useState([]);
-  const [budget, setBudget] = useState();
+  const [budget, setBudget] = useState(2000);
   const [search, setSearch] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   // Handle Save
   const handleSave = (e) => {
@@ -24,6 +25,7 @@ export default function App() {
   const handleAddBudget = (e) => {
     if (e.key === "Enter") {
       setBudget(e.target.value);
+      setIsEditing(false);
     }
   };
   //Calculate total expenses & Remaining
@@ -44,14 +46,18 @@ export default function App() {
 
   return (
     <>
-      <input
-        type="number"
-        placeholder="Budget:2000 MAD"
-        value={budget}
-        onChange={(e) => setBudget(e.target.value)}
-        onKeyDown={handleAddBudget}
-      />
-      <button>Edit</button>
+      {isEditing ? (
+        <input
+          type="number"
+          placeholder="Budget:2000 MAD"
+          value={budget}
+          onChange={(e) => setBudget(e.target.value)}
+          onKeyDown={handleAddBudget}
+        />
+      ) : (
+        <input type="text" value={`Budget: ${budget} MAD`} readOnly />
+      )}
+      <button onClick={() => setIsEditing(true)}>Edit</button>
       <p>Remaining : ${parseFloat(budget) - totalExpenses}</p>
       <p>Spend so far : ${totalExpenses}</p>
       <form action="">
